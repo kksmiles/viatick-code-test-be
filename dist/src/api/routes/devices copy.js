@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const devices_1 = require("../controllers/devices");
+const router = (0, express_1.Router)();
+router.post("/", devices_1.store);
+router.get("/", devices_1.index);
+router.get("/:slug", devices_1.show);
+router.put("/:slug", devices_1.update);
+router.delete("/:slug", devices_1.destroy);
+exports.default = router;
