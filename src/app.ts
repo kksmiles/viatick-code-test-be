@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 
 dotenv.config();
 
+const cors = require("cors");
 const app: Express = express();
 var jsonParser = bodyParser.json();
 const port = process.env.PORT;
@@ -15,6 +16,9 @@ dbInit();
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Viatick");
 });
+
+// Will just allow all origins for now
+app.use(cors());
 app.use(jsonParser);
 app.use("/api", routes);
 

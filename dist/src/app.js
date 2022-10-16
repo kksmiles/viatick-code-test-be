@@ -9,6 +9,7 @@ const routes_1 = __importDefault(require("./api/routes"));
 const init_1 = __importDefault(require("./db/init"));
 const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
+const cors = require("cors");
 const app = (0, express_1.default)();
 var jsonParser = body_parser_1.default.json();
 const port = process.env.PORT;
@@ -16,6 +17,8 @@ const port = process.env.PORT;
 app.get("/", (req, res) => {
     res.send("Hello Viatick");
 });
+// Will just allow all origins for now
+app.use(cors());
 app.use(jsonParser);
 app.use("/api", routes_1.default);
 try {
