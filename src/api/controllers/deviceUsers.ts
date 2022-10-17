@@ -46,14 +46,17 @@ export const destroy: RequestHandler = async (req, res, next) => {
 export const indexUserDevices: RequestHandler = async (req, res, next) => {
   const { userSlug } = req.params;
 
-  const devices = await deviceUserDal.getUserDevices(userSlug).catch((err) => {
-    return res.status(err.code).json({ message: err.message });
-  });
-
-  return res.status(200).json({
-    message: "User devices fetched successfully",
-    data: devices,
-  });
+  deviceUserDal
+    .getUserDevices(userSlug)
+    .then((devices) => {
+      return res.status(200).json({
+        message: "User devices fetched successfully",
+        data: devices,
+      });
+    })
+    .catch((err) => {
+      return res.status(err.code).json({ message: err.message });
+    });
 };
 
 export const indexHistoriesByDeviceId: RequestHandler = async (
@@ -64,14 +67,15 @@ export const indexHistoriesByDeviceId: RequestHandler = async (
   const { id } = req.params;
   const { fromTime, toTime } = req.query;
 
-  const deviceUserHistories = await deviceUserHistoryDal
+  deviceUserHistoryDal
     .getHistoriesByDeviceId(parseInt(id), fromTime, toTime)
+    .then((deviceUserHistories) => {
+      return res.status(200).json({
+        message: "Device User Histories fetched successfully",
+        data: deviceUserHistories,
+      });
+    })
     .catch((err) => {
       return res.status(err.code).json({ message: err.message });
     });
-
-  return res.status(200).json({
-    message: "Device User Histories fetched successfully",
-    data: deviceUserHistories,
-  });
 };

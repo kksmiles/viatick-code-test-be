@@ -77,26 +77,32 @@ const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 exports.destroy = destroy;
 const indexUserDevices = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userSlug } = req.params;
-    const devices = yield deviceUserDal.getUserDevices(userSlug).catch((err) => {
+    deviceUserDal
+        .getUserDevices(userSlug)
+        .then((devices) => {
+        return res.status(200).json({
+            message: "User devices fetched successfully",
+            data: devices,
+        });
+    })
+        .catch((err) => {
         return res.status(err.code).json({ message: err.message });
-    });
-    return res.status(200).json({
-        message: "User devices fetched successfully",
-        data: devices,
     });
 });
 exports.indexUserDevices = indexUserDevices;
 const indexHistoriesByDeviceId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { fromTime, toTime } = req.query;
-    const deviceUserHistories = yield deviceUserHistoryDal
+    deviceUserHistoryDal
         .getHistoriesByDeviceId(parseInt(id), fromTime, toTime)
+        .then((deviceUserHistories) => {
+        return res.status(200).json({
+            message: "Device User Histories fetched successfully",
+            data: deviceUserHistories,
+        });
+    })
         .catch((err) => {
         return res.status(err.code).json({ message: err.message });
-    });
-    return res.status(200).json({
-        message: "Device User Histories fetched successfully",
-        data: deviceUserHistories,
     });
 });
 exports.indexHistoriesByDeviceId = indexHistoriesByDeviceId;

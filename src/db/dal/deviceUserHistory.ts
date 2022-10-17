@@ -40,7 +40,7 @@ export const getHistoriesByDeviceId = async (
     },
   });
   if (!deviceUser) {
-    var err = new Error("DeviceUser not found");
+    var err = new Error("No histories for device user was found");
     err.code = 404;
     throw err;
   }
